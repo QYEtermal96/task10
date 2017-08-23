@@ -1,25 +1,26 @@
 'use strict';
 
 function find(collection, ch) {
-    for (let item of collection) {
-        if (item.key === ch) {
-            return item;
-        }
+    var result = collection.find((e) =>{
+        return e.key === ch
+    })
+    if(result === undefined){
+        return null;
+    }else {
+        return result;
     }
-
-    return null;
 }
 
 function summarize(collection) {
     let result = [];
-    for (let item of collection) {
-        let obj = find(result, item)
-        if (obj) {
+    collection.forEach((e) =>{
+        let obj =find(result, e);
+        if(obj){
             obj.count++;
-        } else {
-            result.push({key: item, count: 1});
+        }else{
+            result.push({key: e, count: 1});
         }
-    }
+    })
     return result;
 }
 
@@ -36,37 +37,40 @@ function push(result, key, count) {
 
 function expand(collection) {
     let result = [];
-    for (let item of collection) {
-        if (item.length === 1) {
-            result.push(item);
-        } else {
-            let {key, count} = split(item);
+    collection.forEach((e) =>{
+        if (e.length === 1) {
+            result.push(e);
+        } else  {
+            let {key, count} = split(e);
             push(result, key, count);
         }
-    }
+    })
+
     return result;
 }
 
 function includes(collection, ch) {
-    for (let item of collection) {
-        if (item === ch) {
-            return true;
-        }
+    var result = collection.find((e) =>{
+        return e === ch
+    })
+    if(result === undefined){
+        return false;
+    }else{
+        return true;
     }
-
-    return false;
 }
 
 function discount(collection, promotionItems) {
     let result = [];
-    for (let item of collection) {
-        let key = item.key;
-        let count = item.count;
+    collection.forEach((e) =>{
+        let key = e.key;
+        let count = e.count;
         if (includes(promotionItems, key)) {
             count = count - Math.floor(count / 3);
         }
-        result.push({key, count});
-    }
+        result.push({key,count});
+    })
+
     return result;
 }
 

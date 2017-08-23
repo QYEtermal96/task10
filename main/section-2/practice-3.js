@@ -1,25 +1,27 @@
 'use strict';
 
 function find(collection, ch) {
-    for (let item of collection) {
-        if (item.name === ch) {
-            return item;
-        }
+    var result = collection.find((e) =>{
+        return e.name === ch
+    })
+    if(result === undefined){
+        return null;
+    }else {
+        return result;
     }
-
-    return null;
 }
 
 function summarize(collection) {
     let result = [];
-    for (let item of collection) {
-        let obj = find(result, item)
-        if (obj) {
+    collection.forEach((e) =>{
+        let obj = find(result,e);
+        if(obj){
             obj.summary++;
-        } else {
-            result.push({name: item, summary: 1});
+        }else{
+            result.push({name: e, summary: 1});
         }
-    }
+    })
+
     return result;
 }
 
@@ -49,14 +51,15 @@ function push(result, key, count) {
 
 function expand(collection) {
     let result = [];
-    for (let item of collection) {
-        if (item.length === 1) {
-            result.push(item);
-        } else {
-            let {key, count} = split(item);
+    collection.forEach((e) =>{
+        if(e.length === 1){
+            result.push(e)
+        }else{
+            let {key, count} = split(e);
             push(result, key, count);
         }
-    }
+    })
+
     return result;
 }
 

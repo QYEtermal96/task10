@@ -1,24 +1,26 @@
 'use strict';
 
 function includes(collection, ch) {
-    for (let item of collection) {
-        if (item === ch) {
-            return true;
-        }
+     var result = collection.find((e) =>{
+        return e === ch
+    })
+    if(result === undefined){
+         return false;
+    }else{
+        return true;
     }
 
-    return false;
 }
 
 module.exports = function createUpdatedCollection(collectionA, objectB) {
     let result = [];
-    for (let item of collectionA) {
-        let key = item.key;
-        let count = item.count;
-        if (includes(objectB.value, key)) {
-            count--;
+    collectionA.forEach((e) =>{
+        let key = e.key;
+        let count = e.count;
+        if (includes(objectB.value, key)){
+            count --;
         }
-        result.push({key, count});
-    }
+        result.push({key,count});
+    })
     return result;
 }
